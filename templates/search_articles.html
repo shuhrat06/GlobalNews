@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <body class="bg-light">
+    <main class="py-5">
+        <div class="container" id="container">
+            <!-- Category Header -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="bg-white rounded-4 shadow-sm p-4 border">
+                        <div
+                                class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3"
+                        >
+                            <div>
+                <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-2 mb-2">
+                  Qidiruv qiymati
+                </span>
+                                <h1 class="h2 fw-bold mb-2">{{search}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="row g-4">
+                <!-- Articles List -->
+                <div class="col-lg-12">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h2 class="h4 fw-bold mb-0">Topilgan maqolalar</h2>
+                        <span class="text-secondary small">Jami:
+                            {%if search_articles %} {{search_articles.count}} {% else %} 0 {%endif%} ta natija</span>
+                    </div>
+
+                    {% if search_articles %}
+                        {% for article in search_articles %}
+                            <article class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img
+                                                {% if article.cover.url %} src="{{article.cover.url}}" {% else %} 
+                                                src="{% static 'img/default_cover.png' %}" {% endif %}
+                                                class="img-fluid h-100 w-100 object-fit-cover"
+                                                alt="Maqola rasmi"
+                                        />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body p-4">
+                                            <span class="badge bg-info-subtle text-info-emphasis mb-3"> {{f_category}} </span>
+                                            <h3 class="h4 fw-bold mb-3">
+                                                <a href="{% url 'article-content' article.slug %}" class="text-dark text-decoration-none">
+                                                    {{article.title}}
+                                                </a>
+                                            </h3>
+                                            <p class="text-secondary mb-3">
+                                                {{article.intro}}
+                                            </p>
+                                            <div
+                                                    class="d-flex flex-wrap align-items-center gap-3 text-secondary small mb-3"
+                                            >
+                                                <span><i class="bi bi-calendar3 me-1"></i> {{article.created_at|date:'H.i, d.m.Y'}} </span>
+                                                <span><i class="bi bi-clock me-1"></i> {{article.read_time_minute}} daqiqa o'qiladi </span>
+                                                <span><i class="bi bi-eye me-1"></i> {{article.f_views}} ko‘rishlar</span>
+                                            </div>
+                                            <a href="{% url 'article-content' article.slug %}" class="btn btn-outline-primary rounded-pill px-4">
+                                                Batafsil o‘qish
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        {% endfor %}
+                        {% if search_articles|length > 10 %}
+                            <!-- Pagination -->
+                            <nav class="mt-4" aria-label="Pagination">
+                                <ul class="pagination pagination-lg justify-content-center">
+                                    <li class="page-item disabled">
+                                        <a class="page-link rounded-start-pill px-4" href="#">Oldingi</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link rounded-end-pill px-4" href="#">Keyingi</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        {% endif %}
+                    {% else %}
+                        <h2> {{search}} qidiruv ga oid maqolalar topilmadi! </h2>
+                    {% endif %}
+                    
+                    
+                </div>
+
+                <!-- Sidebar -->
+            </div>
+        </div>
+    </main>
+    </body>
+{% endblock %}

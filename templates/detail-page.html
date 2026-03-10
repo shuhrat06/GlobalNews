@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+        <!-- Single Product Start -->
+        <div class="container-fluid py-5">
+            <div class="container py-5">
+                <ol class="breadcrumb justify-content-start mb-4">
+                    <li class="breadcrumb-item"><a href="#">Asosiy</a></li>
+                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                    <li class="breadcrumb-item active text-dark"> {{article.slug|truncatechars:50}} </li>
+                </ol>
+                <div class="row g-4">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-10">
+                        <div class="mb-4">
+                            <a href="#" class="h1 display-5"> {{article.title}} </a>
+                            <br><br>
+                            <p>{{article.intro}}</p>
+                        </div>
+                        <div class="position-relative rounded overflow-hidden mb-3">
+                            <img {%if article.cover %} src="{{article.cover.url}}" {% else %} src="{% static 'img/default_cover.png' %}" {% endif %} class="img-zoomin img-fluid rounded w-100" alt="">
+                            <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">                                              
+                                {{ article.category.name }}
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <a href="#" class="text-dark link-hover me-3" ><i class="fa fa-clock"></i> {{article.read_time_minute}} daqiqa o'qiladi </a>
+                            <a href="#" class="text-dark link-hover me-3" title="{{article.views}}"><i class="fa fa-eye"></i> {{article.f_views}} ko'rishlar </a>
+                            <a href="#" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> {{article.comments_count}} Izohlar </a>
+                            <a href="#" class="text-dark link-hover"><i class="fa fa-calendar-day"></i> {{article.created_at|date:'H:i | d.m.Y'}} </a>
+                        </div>
+                        {% for content in contents %}
+                            {% if content.text %}
+                                <p class="my-4">
+                                    {{content.text}}
+                                </p>
+                            {% else %}
+                                <div class="row g-4">
+                                    <div class="col-1"></div>
+                                    <div class="col-10">
+                                        <div class="rounded overflow-hidden">
+                                            <img src="{{content.image.url}}" class="img-zoomin img-fluid rounded w-100" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+
+                        <div class="tab-class">
+                            <div class="d-flex justify-content-between border-bottom mb-4">
+                                <ul class="nav nav-pills d-inline-flex text-center">
+                                    <li class="nav-item mb-3">
+                                        <h5 class="mt-2 me-3 mb-0">Tags:</h5>
+                                    </li>
+                                    {% for tag in article.tags.all %}
+                                        <li class="nav-item mb-3">
+                                            <a class="d-flex py-2 bg-light rounded-pill active me-2" data-bs-toggle="pill" href="#tab-1">
+                                                <span class="text-dark" style="width: 100px;">{{tag.name}}</span>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                
+                                </ul>
+                                <div class="d-flex align-items-center">
+                                    <h5 class="mb-0 me-3">Share:</h5>
+                                    <i class="fab fa-facebook-f link-hover btn btn-square rounded-circle border-primary text-dark me-2"></i>
+                                    <i class="btn fab bi-twitter link-hover btn btn-square rounded-circle border-primary text-dark me-2"></i>
+                                    <i class="btn fab fa-instagram link-hover btn btn-square rounded-circle border-primary text-dark me-2"></i>
+                                    <i class="btn fab fa-linkedin-in link-hover btn btn-square rounded-circle border-primary text-dark"></i>
+                                </div>
+                            </div>
+                            <div id="tab-1" class="tab-pane fade show active">
+                                <div class="row g-4 align-items-center">
+                                    <div class="col-9">
+                                        <div style="
+                                            display: inline-flex;
+                                            align-items: center;
+                                            gap: 10px;
+                                            background-color: #f8f9fa; /* konteyner rangi */
+                                            padding: 10px 20px;
+                                            border-radius: 15px;
+                                            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+                                        ">
+                                            <span style="font-weight: 500; color: #555;">Tayyorlagan</span>
+                                            <span style="
+                                                background-color: #e0f7fa; /* ismning fon rangi */
+                                                padding: 5px 12px;
+                                                border-radius: 12px;
+                                                font-weight: 600;
+                                                color: #007b8f;
+                                            ">
+                                                {{ article.author }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+
+
+
+                        <div class="bg-light rounded my-4 p-4" style="margin-top: 50px;">
+                            <h4 class="mb-4">O'xshash maqolalar</h4>
+                            <div class="row g-4">
+                                {% if related_articles %}
+                                    {% for article in related_articles %}
+                                        <div class="col-lg-6">
+                                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                                <img 
+                                                    {% if article.cover %} src="{{ article.cover.url }}" {% else %} src="{% static 'img/default_cover.png' %}" {% endif %} 
+                                                    class="rounded" 
+                                                    alt="{{ article.title }}"
+                                                    style="width: 120px; height: 80px; object-fit: cover; flex-shrink: 0;">
+                                                <div class="ms-3 d-flex flex-column justify-content-between">
+                                                    <a href="{% url 'article-content' article.slug %}" class="h6 mb-2 text-dark text-truncate" style="max-width: calc(100% - 140px);">
+                                                        {{ article.title|truncatechars:50 }}
+                                                    </a>
+                                                    <p class="text-secondary mb-0 small">
+                                                        <i class="fa fa-clock me-1"></i> {{ article.read_time_minute }} daqiqa o'qiladi
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <h2>Topilmadi.</h2>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="bg-light rounded p-4" id="comments">
+                            <h4 class="mb-4">Izohlar</h4>
+
+                            {% if article.comment_set.all %}
+                                {% for comment in article.comment_set.all %}
+                                    <div class="p-4 bg-white rounded mb-4">
+                                        <div class="row g-4">
+                                            <div class="col-9">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5>{{comment.name}}</h5>
+                                                    <p> {{comment.email}} </p>
+                                                </div>
+                                                <small class="text-body d-block mb-3"><i class="fas fa-calendar-alt me-1"></i> {{comment.created_at|date:'H.i , d.m.Y'}} </small>
+                                                <p class="mb-0"> {{comment.text}} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="p-4 bg-white rounded mb-4">
+                                    <div class="row g-4">
+                                        <div class="col-9">
+                                            <h5>Izoh mavjud emas.</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                                
+                        </div>
+                        <div class="bg-light rounded p-4 my-4">
+                            <h4 class="mb-4">Izoh qoldiring.</h4>
+                            <form action="{% url 'post-comment' article.slug %}" method="post">
+                                {% csrf_token %}
+                                <div class="row g-4">
+                                    <div class="col-lg-6">
+                                        <input type="text" name="name" class="form-control py-3" placeholder="To'liq ismingiz." required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="email" name="email" class="form-control py-3" placeholder="Email.">
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea class="form-control" name="text" id="" cols="30" rows="3" placeholder="Izohingizni shu joyga yozing." minlength="1" required></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="form-control btn btn-primary py-3" type="submit">Yuborish</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Single Product End -->
+
+{% endblock %}
+

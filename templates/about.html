@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Umumiy background rasm, fixed */
+    body.about-us-page {
+        background: url("{% static 'img/about-background.avif' %}") no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    /* Content overlay uchun biroz kontrast va padding */
+    .about-content {
+        background: rgba(36, 134, 204, 0.65); /* to'qroq overlay */
+        color: #f8f9fa; /* ochiq matn */
+        padding: 60px 30px;
+        border-radius: 1rem;
+    }
+
+    .about-content h1,
+    .about-content h2,
+    .about-content h3,
+    .about-content h5 {
+        color: #fff;
+    }
+
+    .about-content p {
+        color: #e0e0e0;
+    }
+
+    /* Team cards style */
+    .team-card {
+        background: rgba(0,0,0,0.75);
+        border: none;
+        border-radius: 1rem;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .team-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.6);
+    }
+
+    .team-card img {
+        object-fit: cover;
+        height: 220px;
+    }
+
+    /* Mission & Values boxes */
+    .value-box {
+        background: rgba(0,0,0,0.75);
+        padding: 30px 20px;
+        border-radius: 1rem;
+        color: #f8f9fa;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .value-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.6);
+    }
+
+    /* Buttons */
+    .btn-light, .btn-primary {
+        border-radius: 50px;
+        transition: all 0.3s;
+    }
+
+    .btn-light:hover, .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.5);
+    }
+
+    /* Responsiv adjustments */
+    @media (max-width: 992px) {
+        .about-content {
+            padding: 40px 20px;
+        }
+        .team-card img {
+            height: 180px;
+        }
+    }
+</style>
+
+<body class="about-us-page">
+<main class="py-5">
+    <div class="container about-content">
+        <!-- Header -->
+        <div class="row mb-5 text-center">
+            <div class="col-12">
+                <h1 class="display-4 fw-bold">Biz haqimizda</h1>
+                <p class="lead">Sizga eng so‘nggi yangiliklar, tahlillar va foydali ma’lumotlarni yetkazib beramiz.</p>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <div class="row align-items-center mb-5" style="justify-content: center;">
+            <div class="col-lg-6 mb-4 mb-lg-0" style="width: 400px; height: 300px; border-radius: 50px;" >
+                <img src="{% static 'img/favicon.png' %}" alt="About Us" class="img-fluid rounded-4 shadow" style="border-radius: 50px;">
+            </div>
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-3">Bizning missiyamiz</h2>
+                <p>
+                    Bizning maqsadimiz – foydalanuvchilarga eng sifatli va yangilangan yangiliklarni yetkazish.
+                    Har bir maqola, tahlil va reportaj sizning vaqtni tejash va to‘g‘ri ma’lumot olish uchun yaratilgan.
+                </p>
+                <p>
+                    Jamoamiz yangiliklarni tezkorlik bilan tahlil qiladi, eng muhim voqealarni sizga yetkazadi va har doim ishonchli manbalarni tanlaydi.
+                </p>
+                <a href="{% url 'home-page' %}" class="btn btn-primary mt-3 px-4 py-2">Bosh sahifaga qaytish</a>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="row mb-5 text-center" style="margin-top: 100px;">
+            <div class="col-12 mb-4">
+                <h2 class="fw-bold">Bizning jamoamiz</h2>
+                <p>Yangiliklar ortida faoliyat yuritayotgan professional jamoa</p>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card team-card h-100">
+                    <img src="{% static 'img/footer-6.jpg' %}" class="card-img-top" alt="Ali T.">
+                    <div class="card-body text-center">
+                        <h5 class="fw-bold">Ali Toirov.</h5>
+                        <p>Bosh muharrir, Yangiliklar tahlili</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card team-card h-100">
+                    <img src="{% static 'img/footer-3.jpg' %}" class="card-img-top" alt="Gulnoza S.">
+                    <div class="card-body text-center">
+                        <h5 class="fw-bold">Gulnoza Saidova.</h5>
+                        <p>Texnologiya bo‘limi rahbari</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card team-card h-100">
+                    <img src="{% static 'img/footer-1.jpg' %}" class="card-img-top" alt="Jasur K.">
+                    <div class="card-body text-center">
+                        <h5 class="fw-bold">Jasur Komilov.</h5>
+                        <p>Iqtisodiyot va biznes bo‘limi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mission & Values -->
+        <div class="row mb-5 text-center">
+            <div class="col-12 mb-4">
+                <h2 class="fw-bold">Bizning qadriyatlarimiz</h2>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="value-box h-100">
+                    <i class="fas fa-bullseye fa-2x mb-3 text-warning"></i>
+                    <h5 class="fw-bold mb-2">Aniqlik</h5>
+                    <p>Har bir yangilik faktlarga asoslangan va ishonchli manbalardan olinadi.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="value-box h-100">
+                    <i class="fas fa-users fa-2x mb-3 text-warning"></i>
+                    <h5 class="fw-bold mb-2">Jamoaviy ish</h5>
+                    <p>Har bir bo‘lim birgalikda ishlaydi, sifat va tezkorlikni ta’minlaydi.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="value-box h-100">
+                    <i class="fas fa-lightbulb fa-2x mb-3 text-warning"></i>
+                    <h5 class="fw-bold mb-2">Innovatsiya</h5>
+                    <p>Yangi texnologiyalar va kreativ yondashuvlar bilan yangiliklarni etkazamiz.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+{% endblock %}
